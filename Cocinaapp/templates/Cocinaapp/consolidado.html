@@ -1,0 +1,134 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickLunch | Consolidado</title>
+
+    <link rel="stylesheet" href="{% static 'Cocinaapp/cocina.css' %}">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo">Quick<span>Lunch</span></div>
+        <p class="sidebar-description">Panel de operaciones</p>
+
+        <h3>Gestión de cocina</h3>
+
+        <a href="{% url 'lista_pedidos' %}">Pedidos</a>
+        <a href="{% url 'consolidado_cocina' %}" class="active">Consolidado</a>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <h1>Consolidado de Cocina</h1>
+                <p>Consulta las cantidades totales de productos que debes preparar.</p>
+            </div>
+
+            <div class="user-badge">
+                Cocina | {{ request.user.username }}
+            </div>
+        </header>
+
+        <section class="stats-grid">
+
+            <article class="stat-card">
+                <h3>Productos a preparar</h3>
+                <div class="number">{{ productos|length }}</div>
+                <p class="description">Productos diferentes</p>
+            </article>
+
+            <article class="stat-card">
+                <h3>Fecha consultada</h3>
+                <div class="number">{{ fecha }}</div>
+                <p class="description">Fecha de servicio</p>
+            </article>
+
+            <article class="stat-card">
+                <h3>Pedidos</h3>
+                <div class="number">Σ</div>
+                <p class="description">Cantidades agrupadas</p>
+            </article>
+
+        </section>
+
+        <section class="filter-panel">
+
+            <form method="GET" class="filters">
+
+                <div class="filter-group">
+                    <label for="fecha">Fecha de servicio</label>
+                    <input type="date" name="fecha" id="fecha" value="{{ fecha }}">
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Consultar consolidado
+                </button>
+
+            </form>
+
+        </section>
+
+        <section class="table-panel">
+
+            <div class="table-header">
+                <h2>Productos y cantidades</h2>
+            </div>
+
+            <div class="table-container">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Total de porciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for producto in productos %}
+
+                        <tr>
+                            <td>
+                                <strong>{{ producto.producto__nombre }}</strong>
+                            </td>
+
+                            <td>
+                                <span class="order-id">{{ producto.total }}</span>
+                            </td>
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="2">
+                                <div class="empty-state">
+                                    No existen productos para preparar en esta fecha.
+                                </div>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+
+            </div>
+
+        </section>
+
+        <p style="margin-top: 20px;">
+            <a href="{% url 'lista_pedidos' %}" class="btn btn-primary">
+                Volver a pedidos
+            </a>
+        </p>
+
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,414 @@
+
+/* ===== CONFIGURACIÓN GENERAL ===== */
+
+:root {
+    --fondo: #f5f6f8;
+    --panel: #ffffff;
+    --texto: #1f2937;
+    --texto-secundario: #6b7280;
+    --principal: #ea580c;
+    --principal-hover: #c2410c;
+    --borde: #e5e7eb;
+    --sidebar: #1f2937;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--fondo);
+    color: var(--texto);
+}
+
+
+/* ===== BARRA LATERAL ===== */
+
+.sidebar {
+    width: 240px;
+    min-height: 100vh;
+    background: var(--sidebar);
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 28px 18px;
+}
+
+.logo {
+    font-size: 23px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.logo span {
+    color: #fb923c;
+}
+
+.sidebar-description {
+    color: #9ca3af;
+    font-size: 13px;
+    margin-bottom: 35px;
+}
+
+.sidebar h3 {
+    font-size: 11px;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+.sidebar a {
+    display: block;
+    text-decoration: none;
+    color: #d1d5db;
+    padding: 12px 14px;
+    border-radius: 7px;
+    margin-bottom: 7px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.sidebar a:hover {
+    background: #374151;
+    color: white;
+}
+
+.sidebar a.active {
+    background: #374151;
+    color: white;
+    border-left: 3px solid #fb923c;
+}
+
+
+/* ===== CONTENIDO PRINCIPAL ===== */
+
+.main-content {
+    margin-left: 240px;
+    padding: 32px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+    gap: 20px;
+}
+
+.topbar h1 {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.topbar p {
+    color: var(--texto-secundario);
+    font-size: 14px;
+    margin-top: 6px;
+}
+
+.user-badge {
+    background: white;
+    padding: 11px 16px;
+    border: 1px solid var(--borde);
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* ===== TARJETAS ===== */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: var(--panel);
+    padding: 22px;
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+}
+
+.stat-card h3 {
+    color: var(--texto-secundario);
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.stat-card .number {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.stat-card .description {
+    font-size: 13px;
+    color: var(--texto-secundario);
+    margin-top: 8px;
+}
+
+.stat-card a {
+    color: var(--principal);
+    text-decoration: none;
+}
+
+.stat-card a:hover {
+    text-decoration: underline;
+}
+
+
+/* ===== FILTROS ===== */
+
+.filter-panel {
+    background: var(--panel);
+    padding: 20px;
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    margin-bottom: 25px;
+}
+
+.filters {
+    display: flex;
+    align-items: end;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.filter-group label {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.filter-group input,
+.filter-group select {
+    padding: 11px 12px;
+    border: 1px solid var(--borde);
+    border-radius: 7px;
+    background: white;
+    min-width: 190px;
+    color: var(--texto);
+    outline: none;
+    font-size: 14px;
+}
+
+.filter-group input:focus,
+.filter-group select:focus {
+    border-color: var(--principal);
+}
+
+
+/* ===== BOTONES ===== */
+
+.btn {
+    border: none;
+    border-radius: 7px;
+    padding: 11px 17px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.btn-primary {
+    background: var(--principal);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--principal-hover);
+}
+
+
+/* ===== TABLA ===== */
+
+.table-panel {
+    background: var(--panel);
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.table-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--borde);
+}
+
+.table-header h2 {
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #f9fafb;
+}
+
+th {
+    text-align: left;
+    padding: 15px 18px;
+    font-size: 12px;
+    color: var(--texto-secundario);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+td {
+    padding: 17px 18px;
+    border-top: 1px solid var(--borde);
+    vertical-align: top;
+    font-size: 14px;
+}
+
+tbody tr:hover {
+    background: #fafafa;
+}
+
+
+/* ===== ESTADOS ===== */
+
+.status {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-pendiente {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-preparacion {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.status-preparado {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.order-id {
+    font-weight: 700;
+    color: var(--principal);
+}
+
+.products-list {
+    line-height: 1.8;
+}
+
+.empty-state {
+    padding: 35px;
+    text-align: center;
+    color: var(--texto-secundario);
+}
+
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 950px) {
+
+    .sidebar {
+        width: 210px;
+    }
+
+    .main-content {
+        margin-left: 210px;
+        padding: 24px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 650px) {
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        min-height: auto;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 18px;
+    }
+
+    .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-group input,
+    .filter-group select {
+        width: 100%;
+    }
+
+    .btn-primary {
+        width: 100%;
+    }
+}
+/* ===== MENSAJES ===== */
+
+.alert-message {
+    padding: 14px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.alert-message.success {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.alert-message.error {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+/* ===== ACCIONES DE PEDIDOS ===== */
+
+td form {
+    margin: 0;
+}
+
+td .btn {
+    white-space: nowrap;
+}
+
+td .description {
+    color: #6b7280;
+    font-size: 13px;
+}

@@ -1,0 +1,221 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickLunch | Cocina</title>
+
+    <link rel="stylesheet" href="{% static 'Cocinaapp/cocina.css' %}">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo">Quick<span>Lunch</span></div>
+        <p class="sidebar-description">Panel de operaciones</p>
+
+        <h3>Gestión de cocina</h3>
+
+        <a href="{% url 'lista_pedidos' %}" class="active">Pedidos</a>
+        <a href="{% url 'consolidado_cocina' %}">Consolidado</a>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <h1>Panel de Cocina</h1>
+                <p>Gestiona y supervisa los pedidos de alimentación.</p>
+            </div>
+
+            <div class="user-badge">
+                Cocina | {{ request.user.username }}
+            </div>
+        </header>
+        {% if messages %}
+    {% for message in messages %}
+        <div class="alert-message {{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+        <section class="stats-grid">
+
+            <article class="stat-card">
+                <h3>Pedidos visibles</h3>
+                <div class="number">{{ pedidos|length }}</div>
+                <p class="description">Pedidos confirmados</p>
+            </article>
+
+            <article class="stat-card">
+                <h3>Fecha de servicio</h3>
+                <div class="number">{{ fecha }}</div>
+                <p class="description">Fecha seleccionada</p>
+            </article>
+
+            <article class="stat-card">
+                <h3>Consolidado</h3>
+                <div class="number">+</div>
+                <p class="description">
+                    <a href="{% url 'consolidado_cocina' %}">Consultar porciones</a>
+                </p>
+            </article>
+
+        </section>
+
+        <section class="filter-panel">
+
+            <form method="GET" class="filters">
+
+                <div class="filter-group">
+                    <label for="fecha">Fecha de servicio</label>
+                    <input type="date" name="fecha" id="fecha" value="{{ fecha }}">
+                </div>
+
+                <div class="filter-group">
+                    <label for="estado">Estado de preparación</label>
+
+                    <select name="estado" id="estado">
+                        <option value="">Todos los estados</option>
+
+                        <option value="pendiente" {% if estado == "pendiente" %}selected{% endif %}>
+                            Pendiente
+                        </option>
+
+                        <option value="en_preparacion" {% if estado == "en_preparacion" %}selected{% endif %}>
+                            En preparación
+                        </option>
+
+                        <option value="preparado" {% if estado == "preparado" %}selected{% endif %}>
+                            Preparado
+                        </option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Aplicar filtros
+                </button>
+
+            </form>
+
+        </section>
+
+        <section class="table-panel">
+
+            <div class="table-header">
+                <h2>Listado de pedidos</h2>
+            </div>
+
+            <div class="table-container">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Pedido</th>
+                            <th>Trabajador</th>
+                            <th>Productos</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for pedido in pedidos %}
+
+                        <tr>
+
+                            <td>
+                                <span class="order-id">#{{ pedido.id }}</span>
+                            </td>
+
+                            <td>
+                                {{ pedido.usuario.username }}
+                            </td>
+
+                            <td>
+                                <div class="products-list">
+                                    {% for detalle in pedido.detalles.all %}
+                                        {{ detalle.producto.nombre }} × {{ detalle.cantidad }}<br>
+                                    {% endfor %}
+                                </div>
+                            </td>
+
+                            <td>
+
+    {% if pedido.estado_preparacion == "pendiente" %}
+        <span class="status status-pendiente">
+            Pendiente
+        </span>
+
+    {% elif pedido.estado_preparacion == "en_preparacion" %}
+        <span class="status status-preparacion">
+            En preparación
+        </span>
+
+    {% elif pedido.estado_preparacion == "preparado" %}
+        <span class="status status-preparado">
+            Preparado
+        </span>
+    {% endif %}
+
+</td>
+
+<td>
+
+    {% if pedido.estado_preparacion == "pendiente" %}
+
+        <form method="POST" action="{% url 'actualizar_pedido' pedido.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="estado" value="en_preparacion">
+            <button type="submit" class="btn btn-primary">
+                Iniciar preparación
+            </button>
+        </form>
+
+    {% elif pedido.estado_preparacion == "en_preparacion" %}
+
+        <form method="POST" action="{% url 'actualizar_pedido' pedido.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="estado" value="preparado">
+            <button type="submit" class="btn btn-primary">
+                Marcar preparado
+            </button>
+        </form>
+
+    {% elif pedido.estado_preparacion == "preparado" %}
+
+        <span class="description">
+            Pedido finalizado
+        </span>
+
+    {% endif %}
+
+</td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="5">
+                                <div class="empty-state">
+                                    No existen pedidos para los filtros seleccionados.
+                                </div>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
