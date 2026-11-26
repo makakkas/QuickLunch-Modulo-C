@@ -8,6 +8,8 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from .services import cambiar_estado_pedido
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.views import LoginView
+from .models import Historial
 
 # Create your views here.
 
@@ -99,3 +101,18 @@ def actualizar_pedido(request, pedido_id):
         messages.error(request, "El pedido solicitado no existe.")
 
     return redirect("lista_pedidos")
+
+class LoginRegistrado(LoginView):
+    template_name = "Cocinaapp/login.html"
+
+    def form_valid(self, form):
+
+        respuesta = super().form_valid(form)
+        Historial.objects.create(
+            usuario = self.request.user,
+            entidad = 'Sesion',
+            accion = 'Inicio de sesion'
+        )
+
+        return respuesta 
+
