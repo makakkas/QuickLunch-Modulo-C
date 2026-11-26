@@ -16,9 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth.views import LogoutView
+from Cocinaapp.views import LoginRegistrado
+from django.views.generic import RedirectView
 
 
 urlpatterns = [
+    path('', RedirectView.as_view(pattern_name='lista_pedidos')), #si en la url pone 'cocina' lo manda primero a login
     path('admin/', admin.site.urls),
     path("cocina/", include("Cocinaapp.urls")),
+    path('login/', LoginRegistrado.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+
 ]
